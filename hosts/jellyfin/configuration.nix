@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -24,6 +24,7 @@
   users.groups.jellyfin.gid = 1000;
   users.users.jellyfin = {
     isNormalUser = true;
+    isSystemUser = lib.mkForce false;
     home = "/home/jellyfin";
     uid = 1000;
     group = "jellyfin";
@@ -38,7 +39,6 @@
     snooze
     yt-dlp
     id3v2
-    quickemu
   ];
 
   services.dbus.enable = true;
