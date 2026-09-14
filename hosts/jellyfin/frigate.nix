@@ -1,9 +1,12 @@
 { config, ... }:
 {
+  systemd.services.frigate.serviceConfig.SupplementaryGroups = [ "video" "render" ];
+
   services.frigate = {
     enable = true;
     hostname = "frigate.jellyfin.local";
     checkConfig = false;
+    vaapiDriver = "i965";
 
     settings = {
       mqtt = {
