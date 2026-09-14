@@ -3,6 +3,7 @@
   services.frigate = {
     enable = true;
     hostname = "frigate.jellyfin.local";
+    checkConfig = false;
 
     settings = {
       mqtt = {
