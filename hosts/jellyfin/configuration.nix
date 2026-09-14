@@ -35,6 +35,8 @@
   systemd.tmpfiles.rules = [
     "d /dev/shm/logs 0755 root root -"
     "d /dev/shm/logs/frigate 1777 root root -"
+    "d /dev/shm/logs/go2rtc 1777 root root -"
+    "d /dev/shm/logs/nginx 1777 root root -"
   ];
 
   environment.systemPackages = with pkgs; [
