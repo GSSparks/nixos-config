@@ -9,18 +9,23 @@
 # /etc/ssh/ssh_host_ed25519_key, never committed) can decrypt.
 let
   gsparks-sitespect = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJXjL0Izv3aogQkWUKhAAjKez1pul1Uztzc+U/odbKd+ root@nixos";
+  jellyfin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM32JJPBSuMr2HalppLfVNzM7dcwY6v7/EzjK8EYRzgj root@nixos";
 
   # Optional: your own user SSH/age key (e.g. ~/.ssh/id_ed25519.pub),
   # if you want to be able to `agenix -e` and re-encrypt secrets from
   # your regular user account instead of only as root on the host.
   # gsparks-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... REPLACE-ME";
 
-  allKeys = [
-    gsparks-sitespect
-    # gsparks-user
-  ];
+  # Per-host key sets — deliberately not merged into one shared list, so
+  # a secret scoped to one machine isn't automatically decryptable by
+  # every other machine in the repo.
+  sitespectKeys = [ gsparks-sitespect ];
+  jellyfinKeys = [ jellyfin ];
 in
 {
-  "oddspedia-privatekey.age".publicKeys = allKeys;
-  "oddspedia-psk.age".publicKeys = allKeys;
+  "oddspedia-privatekey.age".publicKeys = sitespectKeys;
+  "oddspedia-psk.age".publicKeys = sitespectKeys;
+
+  "mosquitto-iotdevice.age".publicKeys = jellyfinKeys;
+  "frigate-env.age".publicKeys = jellyfinKeys;
 }

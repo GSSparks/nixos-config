@@ -112,6 +112,15 @@
           }
         ];
       };
+
+      nixosConfigurations.jellyfin = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/jellyfin/configuration.nix
+          agenix.nixosModules.default
+        ];
+      };
     };
 }
 

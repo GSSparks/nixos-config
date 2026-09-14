@@ -6,6 +6,7 @@ Flake-based NixOS + home-manager configuration, shared across multiple hosts:
 |---|---|---|
 | `gsparks-sitespect` | Intel desktop | Primary work machine |
 | `15z-eh000` | HP Pavilion 15z (AMD) laptop | Personal laptop |
+| `JellyFin` | HP Elite 800 G1 | JellyFin/Frigate server |
 
 More hosts (a second laptop, a Raspberry Pi 4 running Kodi) are planned — see below.
 
@@ -113,6 +114,8 @@ Currently encrypted:
 
 - `oddspedia-privatekey.age` — WireGuard private key for the `oddspedia0` interface
 - `oddspedia-psk.age` — WireGuard preshared key for the same interface
+- `mosquitto-iotdevice.age` - password for mosquitto
+- `frigate-env.age` - password for mqtt and cameras
 
 ### Private, non-secret configuration
 
