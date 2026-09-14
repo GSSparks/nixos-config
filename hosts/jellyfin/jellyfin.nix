@@ -12,7 +12,6 @@
     user = "jellyfin";
     group = "jellyfin";
     dataDir = "/home/jellyfin/jellyfin/config";
-    configDir = "/home/jellyfin/jellyfin/config";
     cacheDir = "/home/jellyfin/jellyfin/cache";
   };
 
