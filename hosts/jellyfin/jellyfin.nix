@@ -23,10 +23,12 @@
   # remapping library paths and risking a rescan / lost watch state.
   fileSystems."/media" = {
     device = "/home/jellyfin/server/Videos";
+    fsType = "none";
     options = [ "bind" ];
   };
   fileSystems."/music" = {
     device = "/home/jellyfin/server/Music";
+    fsType = "none";
     options = [ "bind" ];
   };
 
