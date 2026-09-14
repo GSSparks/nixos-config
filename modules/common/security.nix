@@ -14,6 +14,10 @@
     };
   };
 
+  systemd.tmpfiles.rules = [
+    "d /var/log/clamav 0750 clamav clamav -"
+  ];
+
   services.logrotate.enable = true;
   services.logrotate.settings = {
     header.dateext = true;
