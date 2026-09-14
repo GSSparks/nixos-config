@@ -14,7 +14,10 @@
         password = "{FRIGATE_MQTT_PASSWORD}";
       };
 
-      ffmpeg.hwaccel_args = "preset-vaapi";
+      ffmpeg = {
+        hwaccel_args = "preset-vaapi";
+        input_args = "preset-rtsp-restream";
+      };
 
       record = {
         enabled = true;
