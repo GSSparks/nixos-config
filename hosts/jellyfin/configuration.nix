@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ./jellyfin.nix
     ./frigate.nix
+    ./go2rtc.nix
     ./mosquitto.nix
     ./storage.nix
     ./networking.nix
