@@ -20,6 +20,16 @@
   # mounting the real paths to those same locations on the host lets
   # Jellyfin's existing library database resolve unchanged, instead of
   # remapping library paths and risking a rescan / lost watch state.
+  fileSystems."/config" = {
+    device = "/home/jellyfin/jellyfin/config";
+    fsType = "none";
+    options = [ "bind" ];
+  };
+  fileSystems."/cache" = {
+    device = "/home/jellyfin/jellyfin/cache";
+    fsType = "none";
+    options = [ "bind" ];
+  };
   fileSystems."/media" = {
     device = "/home/jellyfin/server/Videos";
     fsType = "none";
