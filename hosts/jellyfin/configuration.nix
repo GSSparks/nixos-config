@@ -32,6 +32,11 @@
     extraGroups = [ "wheel" "video" "render" ];
   };
 
+  systemd.tmpfiles.rules = [
+    "d /dev/shm/logs 0755 root root -"
+    "d /dev/shm/logs/frigate 1777 root root -"
+  ];
+
   environment.systemPackages = with pkgs; [
     wget
     dbus
