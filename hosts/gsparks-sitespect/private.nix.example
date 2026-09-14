@@ -1,0 +1,19 @@
+{ config, pkgs, ... }:
+{
+  networking.hosts = {
+    # "10.0.0.1" = [ "internal-host.example.com" ];
+  };
+
+  services.openvpn.servers = {
+    # corp1 = { config = "config /etc/openvpn/client/corp1.conf"; };
+  };
+
+  networking.wg-quick.interfaces = {
+    # example = {
+    #   autostart = false;
+    #   address = [ "10.0.0.2/32" ];
+    #   privateKeyFile = config.age.secrets.example-privatekey.path;
+    #   peers = [ { publicKey = "..."; endpoint = "vpn.example.com:51820"; allowedIPs = [ "10.0.0.0/24" ]; } ];
+    # };
+  };
+}

@@ -1,0 +1,37 @@
+╭─🐧82°F ☀️  Wed Sep 09 16:13:09 /.../dev/nixos-config 📁8 📄4 🔗1 < 🛠️ 24 fatal: no such branc... 🔁 >
+╰─▶ gsparks@gsparks-sitespect [] =) ¢ tree
+.
+├── flake.lock
+├── flake.nix
+├── home
+│   ├── bash-interactive.nix
+│   └── gsparks.nix
+├── hosts
+│   └── gsparks-sitespect
+│       ├── configuration.nix
+│       └── hardware-configuration.nix
+├── modules
+│   ├── boot.nix
+│   ├── desktop.nix
+│   ├── hardware-devices.nix
+│   ├── networking.nix
+│   ├── nix.nix
+│   ├── packages.nix
+│   ├── programs.nix
+│   ├── security.nix
+│   └── virtualisation.nix
+├── overlays
+│   └── default.nix
+├── packages
+│   └── meet-control
+│       └── default.nix
+├── README.md
+├── result -> /nix/store/7j0dbi9s7js067xs7j25vz09qq4w2iqz-nixos-system-gsparks-sitespect-26.05.20260825.f4f6986
+├── scripts
+│   └── meet-control.sh
+└── secrets
+    ├── oddspedia-privatekey.age
+    ├── oddspedia-psk.age
+    └── secrets.nix
+
+11 directories, 22 files

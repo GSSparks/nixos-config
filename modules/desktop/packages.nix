@@ -1,0 +1,55 @@
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    ansible
+    bibletime
+    camset
+    chromium
+    clinfo
+    direnv
+    easytag
+    ffmpeg-full
+    fswebcam
+    gimp3-with-plugins
+    inkscape-with-extensions
+    kdePackages.applet-window-buttons6
+    kdePackages.plasma-browser-integration
+    kdePackages.kate
+    kdePackages.kcalc
+    kdePackages.kdecoration
+    kdePackages.kcolorchooser
+    kdePackages.partitionmanager
+    kubectl
+    level-zero
+    libnotify
+    libreoffice-qt6-fresh
+    mpv
+    nodejs_24
+    obs-studio
+    ocs-url
+    openai
+    opentofu
+    orca-slicer
+    p7zip
+    pyenv
+    rar
+    screenfetch
+    slack
+    sshfs
+    sycl-info
+    update-systemd-resolved
+    vimPlugins.YouCompleteMe
+    vlc
+    wl-clipboard
+    yt-dlp
+    zoom-us
+    wayland-utils
+    wireshark
+    nmap
+    python313Packages.onvif-zeep
+    dive
+    podman-tui
+    docker-compose
+    podman-compose
+  ];
+}
