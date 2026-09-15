@@ -4,7 +4,6 @@
     ansible
     bibletime
     camset
-    chromium
     clinfo
     direnv
     easytag

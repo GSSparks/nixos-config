@@ -61,6 +61,14 @@ in
     };
   };
 
+  # --- Chromium ---------------------------------------------------------
+  programs.chromium = {
+    enable = true;
+    commandLineArgs = [
+      "--disable-features=AudioServiceOutOfProcess"
+    ];
+  };
+
   # --- Bash -------------------------------------------------------------
   programs.bash = {
     enable = true;
@@ -166,8 +174,26 @@ in
 
   programs.tmux = {
     enable = true;
-    terminal = "screen-256color";
+    terminal = "xterm-256color";
     keyMode = "vi";
+    mouse = true;
+    extraConfig = builtins.readFile ./tmux-extra.conf;
+  };
+
+  home.file.".local/bin/vpn_status" = {
+    executable = true;
+    text = ''
+      #!/bin/bash
+
+      if pgrep -f "openvpn.*corp1" > /dev/null; then
+        corp1="corp1"
+      fi
+      if pgrep -f "openvpn.*fw1" > /dev/null; then
+        fw1="fw1"
+      fi
+
+      echo "$corp1  $fw1"
+    '';
   };
 
   home.packages = with pkgs; [
