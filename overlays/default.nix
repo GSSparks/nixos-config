@@ -21,9 +21,7 @@ final: prev: {
   # functionality (whitespace-normalization edge cases in
   # test_package_specifier.py). Skip checks rather than block the build
   # on a test bug we can't fix here.
-  python313Packages = prev.python313Packages.overrideScope (pyFinal: pyPrev: {
-    pipx = pyPrev.pipx.overridePythonAttrs (old: {
-      doCheck = false;
-    });
+  pipx = prev.pipx.overridePythonAttrs (old: {
+    doCheck = false;
   });
 }
