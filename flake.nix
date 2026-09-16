@@ -121,6 +121,23 @@
           agenix.nixosModules.default
         ];
       };
+
+      nixosConfigurations."lenovo-yoga-11e" = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/lenovo-yoga-11e/configuration.nix
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.gsparks = import ./home/gsparks.nix;
+            home-manager.backupFileExtension = "backup";
+          }
+        ];
+      };
     };
 }
 
