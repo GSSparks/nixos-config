@@ -24,6 +24,8 @@
 
   networking.hostName = "gsparks-15z-eh000";
 
+  services.automatic-timezoned.enable = true;
+
   users.users.gsparks = {
     isNormalUser = true;
     description = "Gary Sparks";
