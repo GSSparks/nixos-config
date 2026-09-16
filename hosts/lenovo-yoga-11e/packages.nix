@@ -1,0 +1,33 @@
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    kdePackages.plasma-browser-integration
+    kdePackages.applet-window-buttons6
+    kdePackages.kate
+    kdePackages.kcalc
+    kdePackages.krdc
+    bat
+    fwupd
+    libreoffice-qt6-fresh
+    localsend
+    hunspell
+    hunspellDicts.en_US
+    vlc
+    screenfetch
+    direnv
+    kde-gruvbox
+    slack
+    sshfs
+    gcompris
+    xclip
+    pipx
+    python3
+    vscode
+    mpv
+    flashprint
+    freecad
+    orca-slicer
+    rpi-imager
+    cemu
+  ];
+}

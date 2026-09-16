@@ -15,6 +15,7 @@
     ../../modules/common/packages.nix
     ../../modules/common/security.nix
     ../../modules/common/networking.nix
+    ../../modules/common/vim.nix
   ];
 
   networking.hostName = "jellyfin";

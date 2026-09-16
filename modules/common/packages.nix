@@ -10,7 +10,6 @@
     tree
     usbutils
     pciutils
-    vim
     wireguard-tools
   ];
 }
