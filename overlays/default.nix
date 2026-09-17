@@ -1,27 +1,12 @@
 final: prev: {
   _1password = prev._1password;
   _1password-gui = prev._1password-gui;
+  # _1password-cli pin removed 2026-09-17 — nixpkgs had drifted 4 versions
+  # ahead (2.30.3 pinned vs 2.34.0 in nixpkgs), likely cause of CLI
+  # desktop-integration failures against an auto-updated 1Password app.
+  # Restore from git history if a future regression needs a pin again.
 
-  _1password-cli = prev._1password-cli.overrideAttrs (old: {
-    version = "2.30.3";
-    src = prev.fetchurl {
-      url = "https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.3/op_linux_amd64_v2.30.3.zip";
-      sha256 = "sha256-oWMH687LQP0JHXpv9PDDgMPAiXxPRhbeLF0oXlfV7ig=";
-    };
-    nativeBuildInputs = [ prev.unzip ];
-    installPhase = ''
-      mkdir -p $out/bin
-      unzip $src -d $out/bin
-      chmod +x $out/bin/op
-    '';
-    dontUnpack = true;
-  });
-
-  # Upstream test suite has known-broken assertions unrelated to actual
-  # functionality (whitespace-normalization edge cases in
-  # test_package_specifier.py). Skip checks rather than block the build
-  # on a test bug we can't fix here.
-  pipx = prev.pipx.overridePythonAttrs (old: {
+  pipx = prev.pipx.overrideAttrs (old: {
     doCheck = false;
   });
 }
