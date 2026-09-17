@@ -11,6 +11,7 @@
 
   system.autoUpgrade = {
     enable = true;
+    flake = "github:GSSparks/nixos-config#${config.networking.hostName}";
     allowReboot = false;
   };
 
