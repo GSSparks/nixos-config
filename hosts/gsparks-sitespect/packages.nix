@@ -9,6 +9,7 @@
     keyd
     linuxKernel.packages.linux_6_12.evdi
     mediaelch-qt6
+    rage
     rpi-imager
     librashader
     spotify
