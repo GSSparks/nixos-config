@@ -25,4 +25,8 @@
 
   hardware.graphics.enable = true;   # GPU-specific extraPackages set per-host
   hardware.bluetooth.enable = true;
+
+  systemd.tmpfiles.rules = [
+    "d /mnt/server 0755 gsparks users -"
+  ];
 }
