@@ -5,6 +5,7 @@
     ./packages.nix
     ./graphics.nix
     ./networking.nix
+    ./virtualisation.nix
 
     ../../modules/common/boot.nix
     ../../modules/common/nix.nix
