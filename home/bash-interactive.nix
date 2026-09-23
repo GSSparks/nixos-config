@@ -7,6 +7,11 @@
 # this file is the escape hatch for everything else, same idea as
 # `settings`/`serviceConfig` in the NixOS modules.
 #
+# This file is shared across every host — nothing SiteSpect-specific
+# belongs here (no work VPNs, no ansible-centerprise tooling, no
+# gitlab.sitespect.com paths). That lives in a gsparks-sitespect-only
+# file instead.
+#
 # Returns a single string, spliced into programs.bash.initExtra.
 { ... }:
 
@@ -192,7 +197,7 @@
 
     PS1+="\n\[$FG_ORANGE\]╰─▶ \u\[$NORM\]@\[$FG_GREEN\]\[$BOLD\]\h\[$NORM\] "
 
-    if [[ $PWD == "/home/gsparks/gitlab.sitespect.com/"* || $PWD == "/home/gsparks/dev/"* ]]; then
+    if [[ $PWD == "/home/gsparks/dev/"* ]]; then
       PS1+="[$(kubectl config get-contexts | grep '*' | awk '{print $2}')] "
     fi
 
@@ -263,136 +268,7 @@
     fi
   }
 
-  # --- Private/internal functions (from .aliases_private) -------------------
-  function vpn_status() {
-    if pgrep -f "openvpn.*corp1" > /dev/null; then
-      echo "corp1"
-    fi
-    if pgrep -f "openvpn.*fw1" > /dev/null; then
-      echo "fw1"
-    fi
-  }
-
-  function start_corp1() {
-    local user=$(whoami)
-    if sudo systemctl is-active --quiet openvpn-corp1; then
-      echo "Hi $user, corp1 is already started."
-    else
-      sudo systemctl start openvpn-corp1
-      echo "Hi $user, corp1 has been started."
-    fi
-  }
-
-  function start_fw1() {
-    local user=$(whoami)
-    if sudo systemctl is-active --quiet openvpn-fw1; then
-      echo "Hi $user, fw1 is already started."
-    else
-      sudo systemctl start openvpn-fw1
-      echo "Hi $user, fw1 has been started."
-    fi
-  }
-
-  function vpn_on() {
-    if [[ "$(tailscale status --json | jq -r .BackendState)" == "Running" ]]; then
-      echo "Tailscale VPN is already running."
-    else
-      echo "Starting Tailscale VPN"
-      sudo tailscale up \
-        --reset \
-        --exit-node=100.98.127.120 \
-        --accept-routes=true \
-        --exit-node-allow-lan-access=true
-      curl http://icanhazip.com
-    fi
-  }
-
-  function vpn_off() {
-    if [[ "$(tailscale status --json | jq -r .BackendState)" == "Stopped" ]]; then
-      echo "Tailscale VPN is already stopped."
-    else
-      echo "Stopping Tailscale VPN"
-      sudo tailscale down
-      curl http://icanhazip.com
-    fi
-  }
-
-  function sshss() {
-    current_directory="$(pwd)"
-    working_directory="/opt/ansible-centerprise/playbooks"
-    inventory="$1"
-    machine="$2"
-    cd $working_directory
-    trap cleanup INT
-    nix develop --command bash -c "./scripts/ansible-ssh -i ./inventory/$inventory $machine -- --vault-password-file ./scripts/op-ansible-vault-client"
-    trap - INT
-    cd $current_directory
-  }
-
-  function ansible-scp() {
-    cd /opt/ansible-centerprise/playbooks
-    nix develop --command bash -c "./scripts/ansible-scp $*"
-  }
-
-  function kei() {
-    current_directory=''${PWD}
-    cleanup() {
-      cd $current_directory
-      exit
-    }
-    trap cleanup INT
-    cd ~/repos/ansible-centerprise/playbooks && ./scripts/ansible-ssh -i ./inventory/kei admin
-    trap - INT
-    cd $current_directory
-  }
-
-  function pillowtalk() {
-    current_directory=''${PWD}
-    cleanup() {
-      cd $current_directory
-      exit
-    }
-    trap cleanup INT
-    cd ~/repos/ansible-centerprise/playbooks && ./scripts/ansible-ssh -i ./inventory/pillowtalk admin
-    trap - INT
-    cd $current_directory
-  }
-
-  function mycluster() {
-    ssh vagrant@172.21.78.10
-  }
-
-  # --- Docker-environment aliases (multi-line, kept as-is) -------------------
-  alias vagrant='
-    mkdir -p ~/.vagrant.d/{boxes,data,tmp}; \
-    docker run -it --rm \
-      -v ~/.vagrant.d:/.vagrant.d \
-      -v "$PWD":"$PWD" \
-      -w "$PWD" \
-      --network host \
-      docker-registry.sitespect.com/vagrant/vagrant:2.6 \
-      vagrant'
-
-  alias ci-env='
-    clear &&
-    docker run -it --rm \
-      --cpus $(nproc) \
-      -v $(readlink -f "''${PWD%/*}"):"''${PWD%/*}" \
-      -v "$HOME"/.ci-env:/root \
-      -w "$PWD" \
-      --network host \
-      nixos/nix \
-      bash'
-
-  alias centos7='
-    docker run -it --rm \
-      --cpus $(nproc) \
-      -v $(readlink -f "''${PWD%/*}"):"''${PWD%/*}" \
-      -w "$PWD" \
-      --network host \
-      centos:7 \
-      bash'
-
+  # --- Docker-environment aliases ---------------------------------------------
   alias run-nginx='function _run_nginx(){ \
     local net_arg=""; \
     if [ -n "$1" ]; then \
@@ -430,26 +306,14 @@
     echo "Please enter the session name: "
     read -r SESSION_NAME
 
-    eval "$(op signin --raw)"
-
     tmux list-sessions | grep "$SESSION_NAME"
 
     if [ $? != 0 ]; then
       tmux new-session -d -s "$SESSION_NAME":0 -n "general"
-      tmux new-window -t "$SESSION_NAME":1 -n "ansible console"
-      tmux send-keys -t "$SESSION_NAME":1 'cd /home/gsparks/gitlab.sitespect.com/single-tenant/ansible-centerprise/' C-m
-      tmux send-keys -t "$SESSION_NAME":1 'nix develop' C-m
     else
       tmux list-windows -t "$SESSION_NAME" | grep "general"
       if [ $? != 0 ]; then
         tmux new-window -t "$SESSION_NAME":0 -n "general"
-      fi
-
-      tmux list-windows -t "$SESSION_NAME" | grep "ansible console"
-      if [ $? != 0 ]; then
-        tmux new-window -t "$SESSION_NAME":1 -n "ansible console"
-        tmux send-keys -t "$SESSION_NAME":1 'cd /home/gsparks/gitlab.sitespect.com/single-tenant/ansible-centerprise/' C-m
-        tmux send-keys -t "$SESSION_NAME":1 'nix develop' C-m
       fi
     fi
 
