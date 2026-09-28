@@ -33,6 +33,18 @@
     extraGroups = [ "wheel" "video" "render" ];
   };
 
+  # Frigate's state dir is hardcoded to /var/lib/frigate by the nixpkgs
+  # package/module. Bind it onto the big disk instead of fighting that.
+  fileSystems."/var/lib/frigate" = {
+    device = "/home/jellyfin/frigate/media";
+    fsType = "none";
+    options = [ "bind" "nofail" ];
+    depends = [ "/home/jellyfin" ];
+  };
+
+  # Don't let frigate start (and write to the root disk) before the bind is up
+  systemd.services.frigate.unitConfig.RequiresMountsFor = [ "/var/lib/frigate" ];
+
   systemd.tmpfiles.rules = [
     "d /dev/shm/logs 0755 root root -"
     "d /dev/shm/logs/frigate 1777 root root -"
