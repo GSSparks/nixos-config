@@ -40,8 +40,7 @@ in
     VISUAL = "vim";
     EDITOR = "vim";
     TERM = "xterm-256color";
-    OP_ACCOUNT = "my.1password.com";
-    PYENV_ROOT = "$HOME/.pyenv";
+PYENV_ROOT = "$HOME/.pyenv";
     HISTTIMEFORMAT = "[%F %T] ";
   };
 
